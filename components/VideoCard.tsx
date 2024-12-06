@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import { getCldImageUrl, getCldVideoUrl } from "next-cloudinary";
-import { Download, Clock, FileDown, FileUp } from "lucide-react";
+import { Download, Clock, FileDown, FileUp, Trash, Loader } from "lucide-react";
 import dayjs from "dayjs";
 import realtiveTime from "dayjs/plugin/relativeTime";
 import { filesize } from "filesize";
@@ -12,11 +12,14 @@ dayjs.extend(realtiveTime);
 interface VideoCardProps {
   video: Video;
   onDownload: (url: string, title: string) => void;
+  onDelete: (videoId: string) => void;
+  isDeleting: boolean; // Track deleting state
 }
 
-const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload }) => {
+const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload,onDelete,isDeleting }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [previewError, setPreviewError] = useState(false);
+  
 
   const getThumbnailUrl = useCallback((publicId: string) => {
     return getCldImageUrl({
@@ -69,6 +72,12 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload }) => {
   const handlePreviewError = () => {
     setPreviewError(true);
   };
+
+  const handleDelete = () => {
+    onDelete(video.id); // Call parent's handleDeleteVideo
+  };
+
+
 
   return (
     <div
@@ -133,6 +142,21 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload }) => {
             Compression:{" "}
             <span className="text-accent">{compressionPercentage}%</span>
           </div>
+          <div className="flex justify-center align-middle gap-4">
+          <button
+              className="btn btn-primary btn-sm bg-red-600 border-red-600 hover:bg-red-400 hover:border-red-400"
+              onClick={handleDelete}
+              disabled={isDeleting} // Disable delete button while deleting
+            >
+              {isDeleting ? (
+                <Loader size={16} className="animate-spin" /> // Show loading spinner
+              ) : (
+                <Trash size={16} />
+              )}
+              {isDeleting ? "Deleting..." : ""}
+            </button>
+
+
           <button
             className="btn btn-primary btn-sm"
             onClick={() =>
@@ -141,6 +165,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload }) => {
           >
             <Download size={16} />
           </button>
+          </div>
         </div>
       </div>
     </div>
