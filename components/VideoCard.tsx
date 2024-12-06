@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, useCallback } from "react";
 import { getCldImageUrl, getCldVideoUrl } from "next-cloudinary";
 import { Download, Clock, FileDown, FileUp } from "lucide-react";
@@ -79,7 +80,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload }) => {
         {isHovered ? (
           previewError ? (
             <div className="w-full h-full flex items-center justify-center bg-gray-200">
-              <p className="text-red-500">Preview not available</p>
+              <p className="text-red-500">Preview will be loading soon..</p>
             </div>
           ) : (
             <video

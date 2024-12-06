@@ -31,14 +31,14 @@ export default clerkMiddleware((auth, req) => {
         }
 
         // Redirect to `/sign-in` if trying to access a protected route
-        if (!isPublicRoute(req) && !isPublicApiRoute(req)) {
-            return NextResponse.redirect(new URL("/sign-in", req.url));
-        }
+        // if (!isPublicRoute(req) && !isPublicApiRoute(req)) {
+        //     return NextResponse.redirect(new URL("/sign-in", req.url));
+        // }
 
-        // If the request is for a protected API route and the user is not logged in
-        if (isApiRequest && !isPublicApiRoute(req)) {
-            return NextResponse.redirect(new URL("/sign-in", req.url));
-        }
+        // // If the request is for a protected API route and the user is not logged in
+        // if (isApiRequest && !isPublicApiRoute(req)) {
+        //     return NextResponse.redirect(new URL("/sign-in", req.url));
+        // }
     }
 
     return NextResponse.next();
@@ -47,3 +47,16 @@ export default clerkMiddleware((auth, req) => {
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
+
+// import { clerkMiddleware } from '@clerk/nextjs/server'
+
+// export default clerkMiddleware()
+
+// export const config = {
+//   matcher: [
+//     // Skip Next.js internals and all static files, unless found in search params
+//     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+//     // Always run for API routes
+//     '/(api|trpc)(.*)',
+//   ],
+// }

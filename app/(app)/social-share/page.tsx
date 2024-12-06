@@ -4,12 +4,43 @@ import React, {useState, useEffect, useRef} from 'react'
 import { CldImage } from 'next-cloudinary';
 
 const socialFormats = {
-    "Instagram Square (1:1)": { width: 1080, height: 1080, aspectRatio: "1:1" },
-    "Instagram Portrait (4:5)": { width: 1080, height: 1350, aspectRatio: "4:5" },
-    "Twitter Post (16:9)": { width: 1200, height: 675, aspectRatio: "16:9" },
-    "Twitter Header (3:1)": { width: 1500, height: 500, aspectRatio: "3:1" },
-    "Facebook Cover (205:78)": { width: 820, height: 312, aspectRatio: "205:78" },
-  };
+  // Instagram
+  "Instagram Square (1:1)": { width: 1080, height: 1080, aspectRatio: "1:1" },
+  "Instagram Portrait (4:5)": { width: 1080, height: 1350, aspectRatio: "4:5" },
+  "Instagram Landscape (1.91:1)": { width: 1080, height: 608, aspectRatio: "1.91:1" },
+  "Instagram DP": { width: 320, height: 320, aspectRatio: "1:1" },
+  "Instagram Story/reel": { width: 1080, height: 1920, aspectRatio: "9:16" },
+
+  // Twitter
+  "Twitter Post (16:9)": { width: 1200, height: 675, aspectRatio: "16:9" },
+  "Twitter Profile Picture (DP)": { width: 400, height: 400, aspectRatio: "1:1" },
+ 
+
+  // Facebook
+  "Facebook Cover (205:78)": { width: 820, height: 312, aspectRatio: "205:78" },
+  "Facebook Profile Picture": { width: 360, height: 360, aspectRatio: "1:1" },
+  "Facebook Post (Square)": { width: 1080, height: 1080, aspectRatio: "1:1" },
+
+  // LinkedIn
+  "LinkedIn Profile Picture": { width: 400, height: 400, aspectRatio: "1:1" },
+  "LinkedIn Cover Image": { width: 1584, height: 396, aspectRatio: "4:1" },
+
+  // YouTube
+  "YouTube Channel Art": { width: 2560, height: 1440, safeZone: "1546x423", aspectRatio: "16:9" },
+  "YouTube Thumbnail": { width: 1280, height: 720, aspectRatio: "16:9" },
+
+  // TikTok
+  "TikTok Video": { width: 1080, height: 1920, aspectRatio: "9:16" },
+  "TikTok Profile Picture": { width: 200, height: 200, aspectRatio: "1:1" },
+
+  // Pinterest
+  "Pinterest Pin (Standard)": { width: 1000, height: 1500, aspectRatio: "2:3" },
+
+
+  // Snapchat
+  "Snapchat Story/Ad": { width: 1080, height: 1920, aspectRatio: "9:16" },
+};
+
 
   type SocialFormat = keyof typeof socialFormats;
 
@@ -28,31 +59,33 @@ const socialFormats = {
     }, [selectedFormat, uploadedImage])
 
     const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if(!file) return;
-        setIsUploading(true);
-        const formData = new FormData();
-        formData.append("file", file);
-
-        try {
-            const response = await fetch("/api/image-upload", {
-                method: "POST",
-                body: formData
-            })
-
-            if(!response.ok) throw new Error("Failed to upload image");
-
-            const data = await response.json();
-            setUploadedImage(data.publicId);
-
-
-        } catch (error) {
-            console.log(error)
-            alert("Failed to upload image");
-        } finally{
-            setIsUploading(false);
+      const file = event.target.files?.[0];
+      if (!file) return;
+    
+      setIsUploading(true);
+      const formData = new FormData();
+      formData.append('file', file);
+    
+      try {
+        const response = await fetch('/api/image-upload', {
+          method: 'POST',
+          body: formData,
+        });
+    
+        if (!response.ok) {
+          throw new Error(`Failed to upload image: ${response.statusText}`);
         }
+    
+        const data = await response.json();
+        setUploadedImage(data.publicId);
+      } catch (error) {
+        console.error(error);
+        alert('Failed to upload image');
+      } finally {
+        setIsUploading(false);
+      }
     };
+    
 
     const handleDownload = () => {
         if(!imageRef.current) return;
@@ -70,7 +103,6 @@ const socialFormats = {
             link.click();
             document.body.removeChild(link);
             window.URL.revokeObjectURL(url);
-            document.body.removeChild(link);
         })
     }
 

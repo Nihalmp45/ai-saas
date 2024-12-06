@@ -31,19 +31,15 @@ function HomePage() {
     }, [fetchVideos])
 
     const handleDownload = useCallback((url: string, title: string) => {
-        () => {
-            const link = document.createElement("a");
-            link.href = url;
-            link.setAttribute("download", `${title}.mp4`);
-            link.setAttribute("target", "_blank");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-        }
-
-    }, [])
-
+      const link = document.createElement("a"); // Create an anchor tag dynamically
+      link.href = url; // Set the URL of the file to be downloaded
+      link.setAttribute("download", `${title}.mp4`); // Suggest a file name to the browser
+      document.body.appendChild(link); // Add the link to the DOM temporarily
+      link.click(); // Trigger a click event programmatically
+      document.body.removeChild(link); // Remove the link from the DOM
+    }, []);
+    
+    
     if(loading){
         return <div>Loading...</div>
     }
