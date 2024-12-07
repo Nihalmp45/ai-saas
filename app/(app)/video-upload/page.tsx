@@ -43,7 +43,7 @@ function VideoUpload() {
       router.push("/home");
     } catch (error) {
       console.log(error);
-      alert("Upload failed");
+      alert("Upload failed please sign in");
     } finally {
       setIsUploading(false);
     }

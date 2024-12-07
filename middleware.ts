@@ -24,7 +24,7 @@ export default clerkMiddleware((auth, req) => {
     }
 
     // If the user is not logged in
-    if (!userId) {
+    if (!userId ) {
         // Allow access to public routes like `/sign-in` or `/sign-up`
         if (isPublicRoute(req)) {
             return NextResponse.next();
