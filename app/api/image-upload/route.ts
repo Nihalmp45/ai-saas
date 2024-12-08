@@ -78,7 +78,7 @@ cloudinary.config({
 export async function POST(request: NextRequest) {
   try {
     const { userId }:any = await auth();
-    console.log("line no 81",userId)
+    
 
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
