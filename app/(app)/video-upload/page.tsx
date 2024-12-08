@@ -43,7 +43,7 @@ function VideoUpload() {
       router.push("/home");
     } catch (error) {
       console.log(error);
-      alert("Upload failed please sign in");
+      alert("Upload failed! we have only a file size limit of 4 mb");
     } finally {
       setIsUploading(false);
     }
