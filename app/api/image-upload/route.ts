@@ -66,7 +66,7 @@ import { auth } from '@clerk/nextjs/server';
 
 interface CloudinaryUploadResult {
     public_id: string;
-    [key: string]: any
+    [key: string]: string
 }
 
 cloudinary.config({
@@ -77,7 +77,7 @@ cloudinary.config({
 
 export async function POST(request: NextRequest) {
   try {
-    const { userId }:any = await auth();
+    const { userId }= await auth();
     
 
     if (!userId) {
@@ -117,10 +117,10 @@ export async function POST(request: NextRequest) {
    
 
     return NextResponse.json({ publicId: result.public_id }, { status: 200 });
-  } catch (error:any) {
+  } catch (error:unknown) {
     console.error('Upload image failed:', error);
     return NextResponse.json(
-      { error: 'Upload image failed', details: error.message },
+      { error: 'Upload image failed' },
       { status: 500 }
     );
   }

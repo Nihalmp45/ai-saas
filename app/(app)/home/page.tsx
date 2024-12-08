@@ -61,6 +61,10 @@ function HomePage() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Videos</h1>
+       {/* Display error if it exists */}
+       {error && (
+        <div className="text-center text-red-500 mb-4">{error}</div>
+      )}
       {videos.length === 0 ? (
         <div className="text-center text-lg text-gray-500">
           No videos available

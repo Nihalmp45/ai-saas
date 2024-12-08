@@ -12,10 +12,15 @@ import {
   UploadIcon,
   ImageIcon,
 } from "lucide-react";
+import Image from "next/image";
 
 const sidebarItems = [
   { href: "/home", icon: LayoutDashboardIcon, label: "Home Page" },
-  { href: "/social-share", icon: Share2Icon, label: "Resize Image for social media" },
+  {
+    href: "/social-share",
+    icon: Share2Icon,
+    label: "Resize Image for social media",
+  },
   { href: "/video-upload", icon: UploadIcon, label: "Video Upload" },
 ];
 
@@ -35,7 +40,7 @@ export default function AppLayout({
   };
 
   const handleSignOut = async () => {
-    await signOut({ redirectUrl: '/sign-in' });
+    await signOut({ redirectUrl: "/sign-in" });
   };
 
   return (
@@ -71,11 +76,13 @@ export default function AppLayout({
                 <>
                   <div className="avatar">
                     <div className="w-8 h-8 rounded-full">
-                      <img
+                      <Image
                         src={user.imageUrl}
                         alt={
                           user.username || user.emailAddresses[0].emailAddress
                         }
+                        width={100} // Specify width in pixels
+                        height={100} // Specify height in pixels
                       />
                     </div>
                   </div>

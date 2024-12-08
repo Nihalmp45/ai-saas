@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import realtiveTime from "dayjs/plugin/relativeTime";
 import { filesize } from "filesize";
 import { Video } from "../types/index";
+import Image from "next/image";
 
 dayjs.extend(realtiveTime);
 
@@ -16,10 +17,14 @@ interface VideoCardProps {
   isDeleting: boolean; // Track deleting state
 }
 
-const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload,onDelete,isDeleting }) => {
+const VideoCard: React.FC<VideoCardProps> = ({
+  video,
+  onDownload,
+  onDelete,
+  isDeleting,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [previewError, setPreviewError] = useState(false);
-  
 
   const getThumbnailUrl = useCallback((publicId: string) => {
     return getCldImageUrl({
@@ -77,8 +82,6 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload,onDelete,isDele
     onDelete(video.id); // Call parent's handleDeleteVideo
   };
 
-
-
   return (
     <div
       className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300"
@@ -102,9 +105,11 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload,onDelete,isDele
             />
           )
         ) : (
-          <img
+          <Image
             src={getThumbnailUrl(video.publicId)}
             alt={video.title}
+            width={600} // Replace with the actual width of the thumbnail
+            height={400} // Replace with the actual height of the thumbnail
             className="w-full h-full object-cover"
           />
         )}
@@ -143,7 +148,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload,onDelete,isDele
             <span className="text-accent">{compressionPercentage}%</span>
           </div>
           <div className="flex justify-center align-middle gap-4">
-          <button
+            <button
               className="btn btn-primary btn-sm bg-red-600 border-red-600 hover:bg-red-400 hover:border-red-400"
               onClick={handleDelete}
               disabled={isDeleting} // Disable delete button while deleting
@@ -156,15 +161,14 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onDownload,onDelete,isDele
               {isDeleting ? "Deleting..." : ""}
             </button>
 
-
-          <button
-            className="btn btn-primary btn-sm"
-            onClick={() =>
-              onDownload(getFullVideoUrl(video.publicId), video.title)
-            }
-          >
-            <Download size={16} />
-          </button>
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() =>
+                onDownload(getFullVideoUrl(video.publicId), video.title)
+              }
+            >
+              <Download size={16} />
+            </button>
           </div>
         </div>
       </div>
