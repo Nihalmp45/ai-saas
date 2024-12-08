@@ -114,7 +114,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="footer items-center p-8 bg-gray-800 text-gray-400">
         <div className="flex flex-col items-center md:flex-row md:justify-between w-full">
-          <p>&copy; 2024 Your App Name. All Rights Reserved.</p>
+          <p>&copy; 2024 Social Blender. All Rights Reserved.</p>
           <div className="flex gap-4 mt-4 md:mt-0">
             <a href="mailto:nihalmp45@gmail.com" className="link link-hover">
               nihalmp45@gmail.com
